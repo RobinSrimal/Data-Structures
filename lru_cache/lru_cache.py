@@ -1,3 +1,12 @@
+class Node:
+
+    def __init__(self, prev, next, key):
+
+        self.prev = None
+        self.next = None
+        self.key = None
+
+
 class LRUCache:
     """
     Our LRUCache class keeps track of the max number of nodes it
@@ -7,6 +16,10 @@ class LRUCache:
     to every node stored in the cache.
     """
     def __init__(self, limit=10):
+
+        self.
+
+
         pass
 
     """
