@@ -1,10 +1,5 @@
-class Node:
 
-    def __init__(self, prev, next, key):
-
-        self.prev = None
-        self.next = None
-        self.key = None
+from doubly_linked_list import ListNode, DoublyLinkedList
 
 
 class LRUCache:
@@ -17,10 +12,13 @@ class LRUCache:
     """
     def __init__(self, limit=10):
 
-        self.
+        self.storage = {}
 
+        self.order = DoublyLinkedList()
 
-        pass
+        self.length = 0
+
+        self.limit = limit
 
     """
     Retrieves the value associated with the given key. Also
@@ -30,7 +28,22 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        pass
+
+
+        if key in self.storage.keys():
+
+            node_to_be_put_to_front = self.order.find_node_with_key(key)
+
+            self.order.move_to_front(node_to_be_put_to_front)
+
+            return self.order.head.value[1]
+        
+
+        else:
+
+            return None
+
+
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -43,4 +56,56 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        pass
+        
+
+        if key in self.storage.keys():
+
+            # update self.storage
+
+            self.storage[key] = value
+
+            # update self.order
+
+            node_to_be_updated = self.order.find_node_with_key(key)
+
+            self.order.delete(node_to_be_updated)
+
+            self.order.add_to_head([key,value])
+
+
+        else:
+
+            if self.length == self.limit:
+
+                # update self.order
+
+                tail_key = self.order.tail.value[0]
+
+                self.order.remove_from_tail()
+
+
+                self.order.add_to_head([key,value])
+
+                
+                # update self.storage
+
+                del self.storage[tail_key] 
+
+                self.storage[key] = value           
+
+            else:
+
+                # update self.order
+
+
+                self.order.add_to_head([key,value])
+
+                # update self.storage
+
+                self.storage[key] = value
+
+                # update LRU length
+
+                self.length += 1
+
+
